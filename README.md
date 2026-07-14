@@ -13,7 +13,7 @@ publishing.
 Install the marketplace and plugin:
 
 ```bash
-codex plugin marketplace add SpeedPainterOrg/speedpainter --ref main
+codex plugin marketplace add SpeedPainterOrg/explainer-video --ref main
 codex plugin add explainer-video@speedpainter
 ```
 
