@@ -1,0 +1,46 @@
+{
+  "name": "explainer-video",
+  "version": "0.2.0",
+  "description": "Turn Codex-authored storyboards and images into narrated hand-drawn explainer videos.",
+  "author": {
+    "name": "Explainer Video",
+    "url": "https://www.speedpainter.org"
+  },
+  "homepage": "https://www.speedpainter.org/en",
+  "repository": "https://github.com/SpeedPainterOrg/speedpainter",
+  "license": "Proprietary",
+  "keywords": [
+    "video",
+    "whiteboard",
+    "explainer",
+    "explainer-video",
+    "text-to-video",
+    "document-to-video",
+    "narration",
+    "subtitles",
+    "storyboard",
+    "rendering"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Explainer Video",
+    "shortDescription": "Turn text or documents into narrated videos up to five minutes.",
+    "longDescription": "Understand source material in Codex, create a three-scene storyboard and three to four editorial whiteboard illustrations, then render a narrated hand-drawn explainer video.",
+    "developerName": "Explainer Video",
+    "category": "Creative",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://www.speedpainter.org/en",
+    "privacyPolicyURL": "https://www.speedpainter.org/en/privacy",
+    "termsOfServiceURL": "https://www.speedpainter.org/en/terms",
+    "defaultPrompt": [
+      "Make an explainer video from this",
+      "把这个做成 60 秒解释视频",
+      "Turn this document into a narrated whiteboard video"
+    ],
+    "brandColor": "#EF6A5B"
+  },
+  "mcpServers": "./.mcp.json"
+}

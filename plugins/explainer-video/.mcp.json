@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "explainer-video": {
+      "url": "https://api.speedpainter.org/mcp",
+      "auth": "oauth"
+    }
+  }
+}
