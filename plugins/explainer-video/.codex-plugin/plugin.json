@@ -1,13 +1,13 @@
 {
   "name": "explainer-video",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "Turn Codex-authored storyboards and images into narrated hand-drawn explainer videos.",
   "author": {
     "name": "Explainer Video",
-    "url": "https://www.speedpainter.org"
+    "url": "https://speedpainter.org"
   },
-  "homepage": "https://www.speedpainter.org/en",
-  "repository": "https://github.com/SpeedPainterOrg/speedpainter",
+  "homepage": "https://speedpainter.org",
+  "repository": "https://github.com/SpeedPainterOrg/explainer-video",
   "license": "Proprietary",
   "keywords": [
     "video",
@@ -25,16 +25,16 @@
   "interface": {
     "displayName": "Explainer Video",
     "shortDescription": "Turn text or documents into narrated videos up to five minutes.",
-    "longDescription": "Understand source material in Codex, create a three-scene storyboard and three to four editorial whiteboard illustrations, then render a narrated hand-drawn explainer video.",
+    "longDescription": "Understand source material in Codex, map narration and subtitles to roughly 10-second scenes, generate scene illustrations concurrently with optional review, then render a narrated hand-drawn explainer video with truthful progress updates.",
     "developerName": "Explainer Video",
     "category": "Creative",
     "capabilities": [
       "Interactive",
       "Write"
     ],
-    "websiteURL": "https://www.speedpainter.org/en",
-    "privacyPolicyURL": "https://www.speedpainter.org/en/privacy",
-    "termsOfServiceURL": "https://www.speedpainter.org/en/terms",
+    "websiteURL": "https://speedpainter.org",
+    "privacyPolicyURL": "https://speedpainter.org/en/privacy",
+    "termsOfServiceURL": "https://speedpainter.org/en/terms",
     "defaultPrompt": [
       "Make an explainer video from this",
       "把这个做成 60 秒解释视频",
