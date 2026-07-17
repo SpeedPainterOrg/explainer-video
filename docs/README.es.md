@@ -1,8 +1,8 @@
 <div align="center">
 
-# Explainer Video para Codex
+# Explainer Video Agent Skill
 
-**Convierte texto, enlaces y documentos en vídeos explicativos dibujados a mano y narrados, directamente desde Codex.**
+**Convierte texto, páginas web y documentos en vídeos explicativos dibujados a mano desde Codex, Claude Code y otros agentes compatibles.**
 
 [Sitio web](https://speedpainter.org) · [Instalación](#inicio-rápido) · [Privacidad](https://speedpainter.org/en/privacy) · [Soporte](https://speedpainter.org/en/contact)
 
@@ -17,121 +17,151 @@
 
 ## Una petición. Un vídeo terminado.
 
-Explainer Video deja en manos de Codex el trabajo editorial que mejor sabe hacer: comprender el material original, identificar la idea principal, escribir el guion gráfico y crear una serie coherente de ilustraciones de pizarra. Después, el renderizador alojado convierte los recursos aprobados en un MP4 narrado, con animación de dibujo y subtítulos integrados.
+Explainer Video combina una Agent Skill portátil con un servicio MCP alojado.
+El agente lee la fuente de forma local; el servicio prepara el guion gráfico,
+genera ilustraciones de pizarra coherentes, crea la narración con MiniMax y los
+subtítulos incrustados, renderiza la animación de dibujo y devuelve un MP4
+publicado.
 
-No necesitas editar una línea de tiempo, desplegar Docker, ejecutar un renderizador local ni configurar una clave de API.
+No necesitas editar una línea de tiempo, desplegar Docker, ejecutar un
+renderizador local ni configurar una clave API.
 
 ## Inicio rápido
 
-### 1. Instala el plugin
+### Codex
 
 ```bash
 codex plugin marketplace add SpeedPainterOrg/explainer-video --ref main
 codex plugin add explainer-video@speedpainter
 ```
 
-### 2. Abre una tarea nueva en Codex
+Abre una tarea nueva de Codex después de instalarlo. El plugin incluye tanto la
+Skill como la conexión MCP remota.
 
-Los plugins se cargan al iniciar una tarea. Después de instalarlo, crea una tarea nueva y adjunta un documento, pega un texto o proporciona una URL.
+### Claude Code
 
-### 3. Describe el resultado que quieres
+Instala primero la Skill portátil:
+
+```bash
+npx skills add https://github.com/SpeedPainterOrg/explainer-video \
+  --skill create-explainer-video
+```
+
+Conecta el MCP alojado para todos tus proyectos:
+
+```bash
+claude mcp add --transport http --scope user \
+  explainer-video https://api.speedpainter.org/mcp
+```
+
+Abre `/mcp` dentro de Claude Code y completa el inicio de sesión con Google.
+
+### Otros clientes compatibles
+
+Copia `plugins/explainer-video/skills/create-explainer-video/` en el directorio
+de Skills personal o del proyecto. Después configura este servidor MCP
+Streamable HTTP con OAuth:
+
+```text
+https://api.speedpainter.org/mcp
+```
+
+El cliente debe ser compatible tanto con Agent Skills como con OAuth para MCP
+remoto para ejecutar el flujo completo.
+
+## Pídelo con naturalidad
 
 ```text
 Convierte este PDF en un vídeo explicativo de 60 segundos.
-```
 
-El primer renderizado abrirá el inicio de sesión con Google. Una vez autorizado, Codex continuará con el guion gráfico, las ilustraciones, la narración, los subtítulos, el renderizado y la entrega.
+Crea un vídeo explicativo de 45 segundos en 9:16 a partir de esta página.
 
-## Ejemplos de peticiones
+Resume estas notas de reunión en un vídeo de pizarra en español.
 
-```text
-Crea un vídeo explicativo vertical de 45 segundos a partir de esta página.
-
-Resume estas notas de reunión en un vídeo de pizarra conciso en español.
-
-Explica esta idea para principiantes, con un estilo editorial cálido y subtítulos integrados.
-```
-
-También puedes pedirlo de forma breve:
-
-```text
 Haz un vídeo con esto.
 ```
 
-Codex completa los ajustes razonables para que no tengas que aprender un sistema de renderizado. Si lo necesitas, puedes indicar el idioma, la duración, la relación de aspecto, el énfasis o el enfoque de la narración.
+Los valores predeterminados son: idioma de la fuente, 60 segundos, 16:9,
+narración MiniMax, sin música de fondo y subtítulos incrustados. Puedes indicar
+la duración, el idioma, la relación de aspecto, la voz, la música o el tipo de
+subtítulos.
 
-Por defecto, Codex muestra el guion con tiempos y las imágenes numeradas antes de subirlas. Puedes aprobarlas todas o pedir cambios solo en escenas concretas. Si prefieres el camino más rápido, indica que omita la revisión de imágenes.
+Cada vídeo puede durar entre 5 segundos y 5 minutos. Se admiten vídeos de menos
+de 30 segundos, aunque el dibujo y la narración pueden sentirse acelerados.
 
-## Funciones
+## Dos modos creativos
 
-| | Compatibilidad |
-|---|---|
-| Entradas | Texto, enlaces, PDF, documentos y notas accesibles para Codex |
-| Duración | De 5 segundos a 5 minutos; 60 segundos de forma predeterminada |
-| Imágenes | Aproximadamente una escena cada 10 segundos: seis para 60 segundos y hasta 30 |
-| Relación de aspecto | 16:9 por defecto; admite formatos solicitados como 9:16 o 1:1 |
-| Narración | Síntesis de voz natural alojada |
-| Subtítulos | Integrados en el MP4 y, cuando esté disponible, un archivo SRT aparte |
-| Resultado | URL del MP4 publicado, duración y resumen de escenas |
+**La generación directa es el modo predeterminado.** El servicio resuelve el
+guion gráfico, las imágenes, la voz, los subtítulos, el renderizado y la
+publicación en una sola tarea asíncrona. Es la ruta más rápida y uniforme entre
+clientes.
 
-Se admiten vídeos de menos de 30 segundos, aunque una duración de 30 segundos o más suele ofrecer un ritmo más natural para la narración y el dibujo.
+**La revisión avanzada es opcional.** Si pides revisar o editar las imágenes de
+cada escena antes de renderizar, un agente capaz puede mostrar tarjetas
+numeradas, regenerar solo las escenas seleccionadas, subir únicamente las
+imágenes aprobadas, validar el manifiesto y conservar todo lo ya aceptado.
 
 ## Cómo funciona
 
 ```mermaid
 flowchart LR
-    A["Texto, URL o documento"] --> B["Codex comprende y crea el guion gráfico"]
-    B --> C["Codex genera las ilustraciones"]
-    C --> R["Aprobar todas o revisar escenas concretas"]
-    R --> D["El renderizador añade voz, ritmo y subtítulos"]
-    D --> E["MP4 y SRT"]
+    A["Texto, URL o documento"] --> B["El agente extrae localmente el contenido útil"]
+    B --> C["El servicio planifica y genera las ilustraciones"]
+    C --> D["Voz MiniMax y subtítulos incrustados"]
+    D --> E["Animación de dibujo, MP4 y SRT"]
 ```
 
-El plugin simplifica la conversación creativa y mantiene una separación clara de responsabilidades:
+El estado de la tarea muestra únicamente la fase y el progreso reales del
+renderizador. La Skill no inventa porcentajes y respeta las indicaciones del
+servidor para consultar, reintentar, terminar o cancelar.
 
-| Codex | Renderizador alojado |
-|---|---|
-| Lee el material original | Recibe únicamente las imágenes generadas y el manifiesto de renderizado aprobado |
-| Define el mensaje y el público | Prepara los recursos gráficos |
-| Escribe el guion, los títulos y la narración | Gestiona la composición, el ritmo de dibujo y la síntesis de voz |
-| Genera las ilustraciones de cada escena | Integra subtítulos, renderiza, publica e informa de las fases y el progreso reales |
+## Capacidades
+
+| | Compatibilidad |
+| --- | --- |
+| Entradas | Texto, URL, PDF, documentos, notas y guiones gráficos accesibles para el agente |
+| Duración | 5–300 segundos; 60 segundos por defecto |
+| Formato | 16:9, 9:16, 1:1 y 4:5 |
+| Estilo visual | Ilustraciones editoriales de pizarra y animación de dibujo |
+| Narración | Síntesis de voz multilingüe alojada con MiniMax |
+| Subtítulos | Incrustados en el MP4 por defecto y SRT separado cuando está disponible |
+| Salida | URL pública del MP4, URL de subtítulos y estado real de la tarea |
 
 ## Privacidad y autenticación
 
-- Los documentos originales, el contenido de las URL y las notas privadas permanecen en Codex.
-- El renderizador solo recibe las ilustraciones generadas y el manifiesto aprobado necesario para producir el vídeo. Este manifiesto contiene la narración, títulos breves, subtítulos y ajustes de renderizado.
-- La autenticación utiliza MCP OAuth con inicio de sesión de Google.
-- No necesitas pegar claves de API ni credenciales del servicio en Codex.
+- El agente lee el archivo original; este plugin no lo sube.
+- El modo directo envía solo el texto extraído necesario para crear el vídeo.
+- El modo avanzado envía las imágenes generadas aprobadas y el manifiesto, no
+  el documento original.
+- La autenticación usa MCP OAuth con Google y crea automáticamente una cuenta
+  gratuita la primera vez.
+- Nunca tienes que pegar en la conversación claves de API, del renderizador,
+  del almacenamiento ni del proveedor de voz.
 
-Consulta la [Política de privacidad](https://speedpainter.org/en/privacy) y los [Términos del servicio](https://speedpainter.org/en/terms).
+Consulta la [Política de privacidad](https://speedpainter.org/en/privacy) y los
+[Términos de servicio](https://speedpainter.org/en/terms).
 
 ## Actualización
 
-Actualiza la instantánea del marketplace para obtener la última versión publicada:
+Codex:
 
 ```bash
 codex plugin marketplace upgrade speedpainter
 ```
 
-Después de actualizar, inicia una tarea nueva en Codex.
+Claude Code / Skill independiente:
 
-## Estructura del repositorio
-
-```text
-.
-├── .agents/plugins/marketplace.json
-└── plugins/explainer-video
-    ├── .codex-plugin/plugin.json
-    ├── .mcp.json
-    └── skills/create-explainer-video/SKILL.md
+```bash
+npx skills add https://github.com/SpeedPainterOrg/explainer-video \
+  --skill create-explainer-video
 ```
 
-Este repositorio contiene la distribución del plugin de Codex con código visible. El servicio de renderizado alojado y la implementación del backend son propietarios y no se incluyen aquí.
+Inicia una sesión nueva del agente después de actualizar.
 
 ## Enlaces
 
-- [SpeedPainter](https://speedpainter.org)
+- [Sitio web](https://speedpainter.org)
 - [Política de privacidad](https://speedpainter.org/en/privacy)
-- [Términos del servicio](https://speedpainter.org/en/terms)
+- [Términos de servicio](https://speedpainter.org/en/terms)
 - [Contactar con soporte](https://speedpainter.org/en/contact)
 - [Informar de un problema](https://github.com/SpeedPainterOrg/explainer-video/issues)

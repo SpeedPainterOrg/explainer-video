@@ -1,8 +1,8 @@
 <div align="center">
 
-# Explainer Video for Codex
+# Explainer Video Agent Skill
 
-**Turn text, URLs, and documents into narrated hand-drawn explainer videos—directly from Codex.**
+**Turn text, URLs, and documents into narrated hand-drawn videos from Codex, Claude Code, and compatible agent clients.**
 
 [Website](https://speedpainter.org) · [Install](#quick-start) · [Privacy](https://speedpainter.org/en/privacy) · [Support](https://speedpainter.org/en/contact)
 
@@ -17,118 +17,143 @@
 
 ## One prompt in. A finished video out.
 
-Explainer Video lets Codex handle the editorial work it already does well:
-understanding your source, finding the central idea, writing a storyboard, and
-creating a coherent set of whiteboard illustrations. The hosted renderer then
-turns those approved assets into a narrated MP4 with drawing animation and
-burned-in subtitles.
+Explainer Video combines a portable Agent Skill with a hosted MCP service. Your
+agent reads the source locally; the service plans the storyboard, generates a
+coherent set of whiteboard illustrations, creates MiniMax narration and burned
+subtitles, renders the drawing animation, and returns a published MP4.
 
 No timeline editing, Docker container, local renderer, or API key is required.
 
 ## Quick start
 
-### 1. Install the plugin
+### Codex
 
 ```bash
 codex plugin marketplace add SpeedPainterOrg/explainer-video --ref main
 codex plugin add explainer-video@speedpainter
 ```
 
-### 2. Start a new Codex task
+Start a new Codex task after installation. The plugin bundles both the Skill and
+the remote MCP connection.
 
-Plugins are loaded when a task starts. Open a new task after installation and
-attach a document, paste some text, or provide a URL.
+### Claude Code
 
-### 3. Ask for the result you want
+Install the portable Skill:
+
+```bash
+npx skills add https://github.com/SpeedPainterOrg/explainer-video \
+  --skill create-explainer-video
+```
+
+Connect the hosted MCP server for all projects:
+
+```bash
+claude mcp add --transport http --scope user \
+  explainer-video https://api.speedpainter.org/mcp
+```
+
+Open `/mcp` in Claude Code and complete Google sign-in.
+
+### Other compatible clients
+
+Copy `plugins/explainer-video/skills/create-explainer-video/` into the client's
+personal or project Skill directory. Then configure this Streamable HTTP MCP
+server with OAuth:
+
+```text
+https://api.speedpainter.org/mcp
+```
+
+The client needs both Agent Skill support and remote MCP OAuth support to run
+the complete workflow.
+
+## Ask naturally
 
 ```text
 Turn this PDF into a 60-second explainer video.
-```
 
-The first render opens Google sign-in. After that, Codex carries the workflow
-through storyboard, illustration, narration, subtitles, rendering, and delivery.
-
-## What you can ask for
-
-```text
 Make a 45-second 9:16 explainer video from this page.
 
-Turn these meeting notes into a concise whiteboard video in Chinese.
+把这些会议记录做成一个简洁的中文白板视频。
 
-Explain this idea for beginners, use a warm editorial drawing style, and burn in subtitles.
-```
-
-Short requests work too:
-
-```text
 Make a video from this.
 ```
 
-Codex fills in sensible defaults instead of making you configure a render
-pipeline. You can still specify the language, duration, aspect ratio, emphasis,
-or narration direction when they matter.
+Sensible defaults are filled in automatically: source language, 60 seconds,
+16:9, MiniMax narration, no background music, and burned subtitles. You can
+override duration, language, aspect ratio, voice, music, or subtitle mode.
 
-By default, Codex shows the timed storyboard and numbered scene images before
-uploading them, so you can approve everything or revise only selected scenes.
-Say `skip image review` when you want the fastest path straight to rendering.
+Videos can be 5 seconds to 5 minutes. Under 30 seconds is supported, but the
+drawing and narration may feel rushed.
 
-## Capabilities
+## Two creative modes
 
-| | Supported |
-|---|---|
-| Inputs | Text, URLs, PDFs, documents, and notes available to Codex |
-| Duration | 5 seconds to 5 minutes; 60 seconds by default |
-| Visuals | About one scene per 10 seconds: six scenes for the 60-second default, up to 30 |
-| Aspect ratio | 16:9 by default; follow a user-specified format such as 9:16 or 1:1 |
-| Narration | Hosted natural-language voice synthesis |
-| Subtitles | Burned into the MP4, with a separate SRT when available |
-| Output | Published MP4 URL, duration, and scene summary |
+**Direct generation is the default.** The service handles the storyboard,
+images, voice, subtitles, rendering, and publishing in one asynchronous task.
+This is the fastest and most consistent route across clients.
 
-Videos shorter than 30 seconds are supported, but 30 seconds or longer usually
-gives the narration and drawing animation better pacing.
+**Advanced review is optional.** Ask to review or edit scene images before
+rendering. A capable agent can generate the illustrations locally, show them in
+numbered storyboard cards, regenerate selected scenes, upload only accepted
+images, validate the final manifest, and render without changing the approved
+work.
 
 ## How it works
 
 ```mermaid
 flowchart LR
-    A["Your text, URL, or document"] --> B["Codex understands and storyboards"]
-    B --> C["Codex creates scene illustrations"]
-    C --> R["Review all or revise selected scenes"]
-    R --> D["Hosted renderer adds voice, timing, and subtitles"]
-    D --> E["MP4 and SRT"]
+    A["Text, URL, or document"] --> B["Agent extracts relevant text locally"]
+    B --> C["Hosted service plans and illustrates"]
+    C --> D["MiniMax voice and burned subtitles"]
+    D --> E["Drawing animation, MP4, and SRT"]
 ```
 
-The plugin keeps the creative conversation simple while maintaining a clear
-responsibility boundary:
+The task response reports the renderer's real stage and progress. The Skill
+never invents a percentage and follows the server's polling, retry, completion,
+and cancellation guidance.
 
-| Codex | Hosted renderer |
-|---|---|
-| Reads the original source | Receives generated scene images and the approved render manifest |
-| Finds the message and audience | Normalizes illustration assets |
-| Writes the storyboard, titles, and narration | Handles layout, drawing timing, and voice synthesis |
-| Generates the scene illustrations | Burns subtitles, renders, publishes, and reports real task stage and progress |
+## Capabilities
+
+| | Supported |
+| --- | --- |
+| Inputs | Text, URLs, PDFs, documents, notes, and existing storyboards accessible to the agent |
+| Duration | 5–300 seconds; 60 seconds by default |
+| Aspect ratio | 16:9, 9:16, 1:1, and 4:5 |
+| Visuals | Editorial hand-drawn whiteboard illustrations and drawing animation |
+| Narration | Hosted MiniMax speech synthesis with multilingual defaults |
+| Subtitles | Burned into the MP4 by default, with a separate SRT when available |
+| Output | Published MP4 URL, subtitle URL, and truthful task status |
 
 ## Privacy and authentication
 
-- Original documents, URL contents, and private notes remain in Codex.
-- The renderer receives only generated scene illustrations and the approved
-  manifest needed to produce the video. That manifest contains narration, short
-  titles, captions, and render settings.
-- Authentication uses MCP OAuth with Google sign-in.
-- You never need to paste an API key or service credential into Codex.
+- The original file is read by the agent and is not uploaded by this plugin.
+- Direct mode sends the extracted text needed to plan and produce the video.
+- Advanced mode sends accepted generated images and the approved render
+  manifest; it does not upload the original document.
+- Authentication uses MCP OAuth with Google sign-in. A free profile is created
+  automatically on first use.
+- You never paste an API key, renderer key, storage key, or voice-provider key
+  into the conversation.
 
 See the [Privacy Policy](https://speedpainter.org/en/privacy) and
-[Terms of Service](https://speedpainter.org/en/terms) for the hosted service.
+[Terms of Service](https://speedpainter.org/en/terms).
 
 ## Updating
 
-Refresh the marketplace snapshot to pick up the latest published plugin version:
+Codex:
 
 ```bash
 codex plugin marketplace upgrade speedpainter
 ```
 
-Start a new Codex task after updating.
+Claude Code / standalone Skill:
+
+```bash
+npx skills add https://github.com/SpeedPainterOrg/explainer-video \
+  --skill create-explainer-video
+```
+
+Start a new agent session after updating.
 
 ## Repository structure
 
@@ -138,16 +163,17 @@ Start a new Codex task after updating.
 └── plugins/explainer-video
     ├── .codex-plugin/plugin.json
     ├── .mcp.json
-    └── skills/create-explainer-video/SKILL.md
+    └── skills/create-explainer-video
+        ├── SKILL.md
+        └── references/advanced-review.md
 ```
 
-This repository contains the source-available Codex plugin distribution. The
-hosted rendering service and backend implementation are proprietary and are not
-included here.
+This repository contains the source-available distribution. The hosted render
+service and backend implementation are proprietary and are not included.
 
 ## Links
 
-- [SpeedPainter](https://speedpainter.org)
+- [Website](https://speedpainter.org)
 - [Privacy Policy](https://speedpainter.org/en/privacy)
 - [Terms of Service](https://speedpainter.org/en/terms)
 - [Contact support](https://speedpainter.org/en/contact)
