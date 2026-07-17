@@ -26,6 +26,12 @@ publicado.
 No necesitas editar una línea de tiempo, desplegar Docker, ejecutar un
 renderizador local ni configurar una clave API.
 
+## Mira un resultado real
+
+[![Animación dibujada a mano generada como Explainer Video](../assets/explainer-video-demo-preview.gif)](../assets/explainer-video-demo.mp4)
+
+[Ver la demo completa de 20 segundos con narración y subtítulos incrustados.](../assets/explainer-video-demo.mp4)
+
 ## Inicio rápido
 
 ### Codex
