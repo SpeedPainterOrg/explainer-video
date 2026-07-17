@@ -24,6 +24,12 @@ subtitles, renders the drawing animation, and returns a published MP4.
 
 No timeline editing, Docker container, local renderer, or API key is required.
 
+## See a real result
+
+[![A generated Explainer Video showing the hand-drawn animation workflow](assets/explainer-video-demo-preview.gif)](assets/explainer-video-demo.mp4)
+
+[Watch the 20-second demo with narration and burned subtitles.](assets/explainer-video-demo.mp4)
+
 ## Quick start
 
 ### Codex
