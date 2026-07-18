@@ -70,7 +70,7 @@ Retry only failed assets. Never upload the original document or notes.
 
 ## Manifest and render
 
-Build schema version `1.0`, style `explainer-video-v1`, MiniMax narration,
+Build schema version `1.0`, style `explainer-video-v1`, hosted narration,
 burned subtitles, and exact scene durations. Never invent pixel coordinates,
 frame numbers, or overlapping animation actions.
 
@@ -83,7 +83,7 @@ frame numbers, or overlapping animation actions.
   "aspectRatio": "16:9",
   "style": "explainer-video-v1",
   "targetDurationSeconds": 10,
-  "voice": {"engine": "minimax", "voiceId": null},
+  "voice": {"voiceId": null},
   "music": null,
   "subtitles": "burn",
   "scenes": [
