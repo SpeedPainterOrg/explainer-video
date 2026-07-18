@@ -42,23 +42,16 @@ codex plugin add explainer-video@speedpainter
 Start a new Codex task after installation. The plugin bundles both the Skill and
 the remote MCP connection.
 
-### Claude Code
-
-Install the portable Skill:
+### Claude Code — one command
 
 ```bash
-npx skills add https://github.com/SpeedPainterOrg/explainer-video \
-  --skill create-explainer-video
+npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
-Connect the hosted MCP server for all projects:
+This installs the Skill and connects the hosted MCP server for every Claude
+Code project. Open Claude Code, run `/mcp` once to sign in with Google, then ask:
 
-```bash
-claude mcp add --transport http --scope user \
-  explainer-video https://api.speedpainter.org/mcp
-```
-
-Open `/mcp` in Claude Code and complete Google sign-in.
+> Turn this document into a 30-second explainer video.
 
 ### Other compatible clients
 
@@ -152,11 +145,10 @@ Codex:
 codex plugin marketplace upgrade speedpainter
 ```
 
-Claude Code / standalone Skill:
+Claude Code:
 
 ```bash
-npx skills add https://github.com/SpeedPainterOrg/explainer-video \
-  --skill create-explainer-video
+npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
 Start a new agent session after updating.
@@ -165,6 +157,8 @@ Start a new agent session after updating.
 
 ```text
 .
+├── package.json
+├── bin/install.mjs
 ├── .agents/plugins/marketplace.json
 └── plugins/explainer-video
     ├── .codex-plugin/plugin.json

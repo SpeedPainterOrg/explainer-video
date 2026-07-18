@@ -40,23 +40,16 @@ codex plugin add explainer-video@speedpainter
 
 安装后新建一个 Codex 任务。插件已经同时包含 Skill 和远程 MCP 配置。
 
-### Claude Code
-
-先安装通用 Skill：
+### Claude Code：一条命令
 
 ```bash
-npx skills add https://github.com/SpeedPainterOrg/explainer-video \
-  --skill create-explainer-video
+npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
-再为所有项目接入托管 MCP：
+这条命令会为所有 Claude Code 项目安装 Skill 并接入托管 MCP。打开 Claude
+Code 后运行一次 `/mcp` 完成 Google 登录，然后直接说：
 
-```bash
-claude mcp add --transport http --scope user \
-  explainer-video https://api.speedpainter.org/mcp
-```
-
-进入 Claude Code 后打开 `/mcp`，按提示完成 Google 登录。
+> 把这个文档做成一个 30 秒的解释视频。
 
 ### 其他兼容客户端
 
@@ -141,11 +134,10 @@ Codex：
 codex plugin marketplace upgrade speedpainter
 ```
 
-Claude Code / 独立 Skill：
+Claude Code：
 
 ```bash
-npx skills add https://github.com/SpeedPainterOrg/explainer-video \
-  --skill create-explainer-video
+npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
 更新后请新建一个 Agent 会话。
@@ -154,6 +146,8 @@ npx skills add https://github.com/SpeedPainterOrg/explainer-video \
 
 ```text
 .
+├── package.json
+├── bin/install.mjs
 ├── .agents/plugins/marketplace.json
 └── plugins/explainer-video
     ├── .codex-plugin/plugin.json

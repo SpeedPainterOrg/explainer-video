@@ -42,23 +42,17 @@ codex plugin add explainer-video@speedpainter
 インストール後に新しい Codex タスクを開始してください。Skill とリモート MCP
 接続はプラグインに同梱されています。
 
-### Claude Code
-
-まず共通 Skill をインストールします。
+### Claude Code — コマンドひとつ
 
 ```bash
-npx skills add https://github.com/SpeedPainterOrg/explainer-video \
-  --skill create-explainer-video
+npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
-次に、すべてのプロジェクトで使う MCP サーバーを追加します。
+すべての Claude Code プロジェクトで使える Skill とホスト型 MCP がまとめて
+設定されます。Claude Code を開き、最初の一度だけ `/mcp` から Google に
+ログインしたら、次のように依頼できます。
 
-```bash
-claude mcp add --transport http --scope user \
-  explainer-video https://api.speedpainter.org/mcp
-```
-
-Claude Code 内で `/mcp` を開き、Google ログインを完了してください。
+> この資料を 30 秒の解説動画にしてください。
 
 ### その他の対応クライアント
 
@@ -149,11 +143,10 @@ Codex：
 codex plugin marketplace upgrade speedpainter
 ```
 
-Claude Code / 単体 Skill：
+Claude Code：
 
 ```bash
-npx skills add https://github.com/SpeedPainterOrg/explainer-video \
-  --skill create-explainer-video
+npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
 更新後は新しいエージェントセッションを開始してください。
