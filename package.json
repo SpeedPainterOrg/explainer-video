@@ -1,0 +1,20 @@
+{
+  "name": "explainer-video-agent-skill",
+  "version": "0.5.0",
+  "private": true,
+  "description": "One-command Claude Code installer for the Explainer Video Agent Skill",
+  "type": "module",
+  "bin": {
+    "explainer-video-agent-skill": "bin/install.mjs"
+  },
+  "files": [
+    "bin/install.mjs",
+    "plugins/explainer-video/skills/create-explainer-video"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
