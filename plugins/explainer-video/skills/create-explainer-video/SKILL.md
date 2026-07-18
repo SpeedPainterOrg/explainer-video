@@ -16,7 +16,7 @@ Require only the source material. Unless the user overrides a choice, use:
 
 - the source language;
 - 16:9 and 60 seconds;
-- MiniMax narration;
+- high-quality hosted narration;
 - no background music;
 - burned subtitles;
 - the server-generated workflow.
@@ -115,7 +115,7 @@ and create a new task. For a technical retry, reuse the existing UUID.
 
 If `create_explainer_video` is missing, tell the user to connect the remote MCP
 server at `https://api.speedpainter.org/mcp` and sign in with Google. Do not ask
-for an API key, renderer key, storage key, voice-provider key, or any secret in
+for an API key, renderer key, storage key, narration service key, or any secret in
 the conversation. Do not invent a curl endpoint as a substitute.
 
 The remote service does not require localhost or port 3000. Browser-based MCP
