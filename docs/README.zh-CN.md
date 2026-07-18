@@ -23,25 +23,17 @@
 
 ## 安装
 
-### Claude Code
-
 ```bash
 npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
-### Codex
-
-```bash
-codex plugin marketplace add SpeedPainterOrg/explainer-video --ref main
-codex plugin add explainer-video@speedpainter
-```
-
-安装后新建一个 Agent 会话。第一次生成视频时，按提示完成 Google 登录。
+安装器会自动识别 Codex 和 Claude Code。安装后新建一个 Agent 会话；如果出现
+鉴权提示，按提示完成 Google 登录即可。
 
 ## 生成视频
 
 ```text
-把这个文档做成一个 30 秒的解释视频。
+用 30 秒讲清楚世界杯从 1930 年首届赛事到今天的发展历史。
 ```
 
 你可以提供文字、网页或文档，也可以指定语言、时长、画面比例、音色、音乐和

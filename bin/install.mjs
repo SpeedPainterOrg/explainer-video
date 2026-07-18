@@ -16,6 +16,9 @@ import { fileURLToPath } from 'node:url';
 export const MCP_NAME = 'explainer-video';
 export const MCP_URL = 'https://api.speedpainter.org/mcp';
 export const SKILL_NAME = 'create-explainer-video';
+export const CODEX_MARKETPLACE = 'speedpainter';
+export const CODEX_PLUGIN = 'explainer-video@speedpainter';
+export const REPOSITORY = 'SpeedPainterOrg/explainer-video';
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const bundledSkillDir = resolve(
@@ -42,6 +45,19 @@ export function runClaude(args) {
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
   });
+}
+
+export function runCodex(args) {
+  const executable = process.platform === 'win32' ? 'codex.exe' : 'codex';
+  return spawnSync(executable, args, {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+}
+
+export function clientAvailable(runner) {
+  const result = runner(['--version']);
+  return !result.error && result.status === 0;
 }
 
 export function ensureClaude(runner = runClaude) {
@@ -115,18 +131,109 @@ export function configureMcp(runner = runClaude) {
   return { added: true };
 }
 
-export function main({ runner = runClaude, homeDir = homedir() } = {}) {
-  ensureClaude(runner);
-  const targetDir = installSkill({ homeDir });
-  const mcp = configureMcp(runner);
+function parsedJson(result, message) {
+  if (result.error || result.status !== 0) throw commandError(message, result);
+  try {
+    return JSON.parse(result.stdout);
+  } catch {
+    throw commandError(`${message} The CLI returned invalid JSON.`, result);
+  }
+}
+
+function isExpectedMarketplaceSource(marketplace) {
+  const source = marketplace?.marketplaceSource?.source;
+  if (typeof source !== 'string') return false;
+  const normalized = source.replace(/^git\+/, '').replace(/\.git$/, '').replace(/\/$/, '');
+  return normalized === REPOSITORY || normalized === `https://github.com/${REPOSITORY}`;
+}
+
+export function configureCodex(runner = runCodex) {
+  const marketplaces = parsedJson(
+    runner(['plugin', 'marketplace', 'list', '--json']),
+    'Could not read Codex plugin marketplaces.',
+  );
+  const currentMarketplace = (marketplaces.marketplaces || []).find(
+    (marketplace) => marketplace.name === CODEX_MARKETPLACE,
+  );
+
+  let marketplaceAdded = false;
+  if (currentMarketplace) {
+    if (!isExpectedMarketplaceSource(currentMarketplace)) {
+      throw new Error(
+        `Codex already has a marketplace named "${CODEX_MARKETPLACE}" from a different source. ` +
+        `Remove it with "codex plugin marketplace remove ${CODEX_MARKETPLACE}", then run this installer again.`,
+      );
+    }
+    const upgraded = runner(['plugin', 'marketplace', 'upgrade', CODEX_MARKETPLACE]);
+    if (upgraded.error || upgraded.status !== 0) {
+      throw commandError('Could not update the Explainer Video Codex marketplace.', upgraded);
+    }
+  } else {
+    const added = runner([
+      'plugin',
+      'marketplace',
+      'add',
+      REPOSITORY,
+      '--ref',
+      'main',
+    ]);
+    if (added.error || added.status !== 0) {
+      throw commandError('Could not add the Explainer Video Codex marketplace.', added);
+    }
+    marketplaceAdded = true;
+  }
+
+  const plugins = parsedJson(
+    runner(['plugin', 'list', '--json']),
+    'Could not read installed Codex plugins.',
+  );
+  const installed = (plugins.installed || []).find(
+    (plugin) => plugin.pluginId === CODEX_PLUGIN && plugin.enabled !== false,
+  );
+  if (installed) return { marketplaceAdded, pluginAdded: false };
+
+  const addedPlugin = runner(['plugin', 'add', CODEX_PLUGIN]);
+  if (addedPlugin.error || addedPlugin.status !== 0) {
+    throw commandError('Could not install the Explainer Video Codex plugin.', addedPlugin);
+  }
+  return { marketplaceAdded, pluginAdded: true };
+}
+
+export function main({
+  claudeRunner = runClaude,
+  codexRunner = runCodex,
+  homeDir = homedir(),
+} = {}) {
+  const hasClaude = clientAvailable(claudeRunner);
+  const hasCodex = clientAvailable(codexRunner);
+  if (!hasClaude && !hasCodex) {
+    throw new Error(
+      'Install Codex or Claude Code first, then run this command again. ' +
+      'Codex: https://developers.openai.com/codex/ | Claude Code: https://code.claude.com/docs/en/overview',
+    );
+  }
+
+  let targetDir;
+  let mcp;
+  let codex;
+  if (hasClaude) {
+    targetDir = installSkill({ homeDir });
+    mcp = configureMcp(claudeRunner);
+  }
+  if (hasCodex) codex = configureCodex(codexRunner);
 
   console.log('');
-  console.log('Explainer Video is ready for Claude Code.');
-  console.log(`Skill: ${targetDir}`);
-  console.log(`MCP: ${mcp.added ? 'configured' : 'already configured'} (${MCP_URL})`);
+  console.log('Explainer Video is ready.');
+  if (codex) {
+    console.log(`Codex: ${codex.pluginAdded ? 'installed' : 'already installed'}`);
+  }
+  if (targetDir && mcp) {
+    console.log(`Claude Code: installed (${targetDir})`);
+    console.log(`Claude MCP: ${mcp.added ? 'configured' : 'already configured'} (${MCP_URL})`);
+  }
   console.log('');
-  console.log('Open Claude Code, run /mcp once to sign in with Google, then ask:');
-  console.log('"Turn this document into a 30-second explainer video."');
+  console.log('Open a new agent session. Sign in with Google when prompted, then ask:');
+  console.log('"Create a 30-second explainer video about the history of the FIFA World Cup."');
 }
 
 const invokedPath = process.argv[1] ? realpathSync(resolve(process.argv[1])) : '';
