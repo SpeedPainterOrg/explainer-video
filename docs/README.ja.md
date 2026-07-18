@@ -23,26 +23,18 @@
 
 ## インストール
 
-### Claude Code
-
 ```bash
 npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
-### Codex
-
-```bash
-codex plugin marketplace add SpeedPainterOrg/explainer-video --ref main
-codex plugin add explainer-video@speedpainter
-```
-
-インストール後に新しいエージェントセッションを開始してください。初回の動画
-生成時だけ、案内に従って Google にログインします。
+インストーラーが Codex と Claude Code を自動判別します。インストール後に
+新しいセッションを開始し、認証を求められた場合だけ Google にログインします。
 
 ## 動画を作る
 
 ```text
-この資料を 30 秒の解説動画にしてください。
+1930 年の第 1 回大会から現在まで、FIFA ワールドカップの歴史を 30 秒の
+解説動画にしてください。
 ```
 
 文章、URL、資料を渡すだけで利用できます。必要に応じて言語、長さ、縦横比、

@@ -23,26 +23,18 @@
 
 ## Instalación
 
-### Claude Code
-
 ```bash
 npx --yes github:SpeedPainterOrg/explainer-video
 ```
 
-### Codex
-
-```bash
-codex plugin marketplace add SpeedPainterOrg/explainer-video --ref main
-codex plugin add explainer-video@speedpainter
-```
-
-Abre una sesión nueva del agente después de instalarlo. La primera vez que
-crees un vídeo, sigue la indicación para iniciar sesión con Google.
+El instalador detecta Codex y Claude Code automáticamente. Abre una sesión
+nueva después de instalarlo e inicia sesión con Google si se te solicita.
 
 ## Crea un vídeo
 
 ```text
-Convierte este documento en un vídeo explicativo de 30 segundos.
+Crea un vídeo explicativo de 30 segundos sobre la historia de la Copa Mundial
+de la FIFA, desde el primer torneo de 1930 hasta hoy.
 ```
 
 Puedes proporcionar texto, una URL o un documento y elegir el idioma, la
