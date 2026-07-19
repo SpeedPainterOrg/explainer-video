@@ -4,7 +4,7 @@
 
 **文章、Web ページ、資料をナレーションと字幕付きの手描き解説動画に。**
 
-[公式サイト](https://speedpainter.org) · [デモ](../assets/explainer-video-demo.mp4) · [プライバシー](https://speedpainter.org/en/privacy) · [サポート](https://speedpainter.org/en/contact)
+[公式サイト](https://speedpainter.org) · [デモ](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4) · [プライバシー](https://speedpainter.org/en/privacy) · [サポート](https://speedpainter.org/en/contact)
 
 </div>
 
@@ -17,9 +17,9 @@
 
 ## 実際の動画を見る
 
-[![手描き解説動画のデモ](../assets/explainer-video-demo-preview.gif)](../assets/explainer-video-demo.mp4)
+[![手描き解説動画のデモ](../assets/explainer-video-demo-preview.gif)](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4)
 
-[ナレーションと焼き込み字幕付きの完成動画を見る。](../assets/explainer-video-demo.mp4)
+[ナレーションと焼き込み字幕付きの完成動画を見る。](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4)
 
 ## インストール
 

@@ -4,7 +4,7 @@
 
 **Turn text, web pages, and documents into narrated hand-drawn videos.**
 
-[Website](https://speedpainter.org) · [Demo](assets/explainer-video-demo.mp4) · [Privacy](https://speedpainter.org/en/privacy) · [Support](https://speedpainter.org/en/contact)
+[Website](https://speedpainter.org) · [Demo](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4) · [Privacy](https://speedpainter.org/en/privacy) · [Support](https://speedpainter.org/en/contact)
 
 </div>
 
@@ -17,9 +17,9 @@
 
 ## See it in action
 
-[![Hand-drawn Explainer Video demo](assets/explainer-video-demo-preview.gif)](assets/explainer-video-demo.mp4)
+[![Hand-drawn Explainer Video demo](assets/explainer-video-demo-preview.gif)](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4)
 
-[Watch the full demo with narration and burned subtitles.](assets/explainer-video-demo.mp4)
+[Watch the full demo with narration and burned subtitles.](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4)
 
 ## Install
 
