@@ -4,7 +4,7 @@
 
 **Convierte textos, páginas web y documentos en vídeos dibujados a mano con voz y subtítulos.**
 
-[Sitio web](https://speedpainter.org) · [Demo](../assets/explainer-video-demo.mp4) · [Privacidad](https://speedpainter.org/en/privacy) · [Soporte](https://speedpainter.org/en/contact)
+[Sitio web](https://speedpainter.org) · [Demo](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4) · [Privacidad](https://speedpainter.org/en/privacy) · [Soporte](https://speedpainter.org/en/contact)
 
 </div>
 
@@ -17,9 +17,9 @@
 
 ## Mira el resultado
 
-[![Demo de un vídeo explicativo dibujado a mano](../assets/explainer-video-demo-preview.gif)](../assets/explainer-video-demo.mp4)
+[![Demo de un vídeo explicativo dibujado a mano](../assets/explainer-video-demo-preview.gif)](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4)
 
-[Ver el vídeo completo con narración y subtítulos incrustados.](../assets/explainer-video-demo.mp4)
+[Ver el vídeo completo con narración y subtítulos incrustados.](https://cdn.jsdelivr.net/gh/SpeedPainterOrg/explainer-video@v0.5.1/assets/explainer-video-demo.mp4)
 
 ## Instalación
 
