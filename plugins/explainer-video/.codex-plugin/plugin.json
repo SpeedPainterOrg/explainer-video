@@ -1,6 +1,6 @@
 {
   "name": "explainer-video",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Turn text or documents into narrated hand-drawn explainer videos in any compatible agent client.",
   "author": {
     "name": "Explainer Video",

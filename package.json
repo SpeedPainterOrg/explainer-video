@@ -1,6 +1,6 @@
 {
   "name": "explainer-video-agent-skill",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "description": "One-command Claude Code installer for the Explainer Video Agent Skill",
   "type": "module",

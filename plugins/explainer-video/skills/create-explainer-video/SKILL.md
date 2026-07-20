@@ -72,11 +72,12 @@ Generate a fresh UUID when the client can do so, and call
 - `aspectRatio`: the requested ratio or `16:9`;
 - `language`: the source/requested language;
 - `voiceId`: only when explicitly supplied or already known to be supported;
-- `music`: only when requested;
 - `subtitles`: the requested mode or `burn`.
 
-Keep the task UUID for technical retries. Do not create a new UUID merely
-because a network response was lost. A genuinely revised video uses a new UUID.
+Keep the task UUID while the network outcome is unknown so a lost response does
+not create a duplicate. After the service reports `FAILED` or `TIMEOUT`, do not
+retry automatically: ask the user first, then generate a fresh UUID for the new
+attempt. A genuinely revised video also uses a new UUID.
 
 The service owns storyboard planning, illustration generation, image cleanup,
 layout, narration synthesis, word-timed subtitles, rendering, assembly, and
@@ -93,8 +94,9 @@ Call `get_explainer_task` with the returned `taskId` until `nextAction` is
 - Show `stage` and `progress` only when returned. Never estimate a percentage.
 - Send a progress update only when the stage changes or real progress advances
   materially.
-- For `retry_create`, retry once with the same source, settings, and task UUID.
-- For `retry_render`, retry once with the same approved manifest in advanced
+- For `retry_create`, ask the user before retrying. If confirmed, retry once
+  with the same source and settings but a fresh task UUID.
+- For `retry_render`, ask the user before retrying the approved work in advanced
   mode.
 - If the retry fails, report the exact stage and message and stop.
 - For `none`, report cancellation or the terminal reason without pretending
@@ -109,7 +111,8 @@ ratio, language, and subtitle URL when one is returned. Offer terse revision
 examples such as `改第 3 幕`, `字幕放大`, `语速慢一点`, or `改成 9:16`.
 
 For a creative revision, preserve unaffected decisions, use a new task UUID,
-and create a new task. For a technical retry, reuse the existing UUID.
+and create a new task. Reuse an existing UUID only when the original network
+outcome is unknown; never reuse a terminal generated-task UUID.
 
 ## Tool availability
 
