@@ -38,7 +38,7 @@ de la FIFA, desde el primer torneo de 1930 hasta hoy.
 ```
 
 Puedes proporcionar texto, una URL o un documento y elegir el idioma, la
-duración, el formato, la voz, la música y los subtítulos. Si no indicas una
+duración, el formato, la voz y los subtítulos. Si no indicas una
 opción, se utiliza un valor predeterminado adecuado.
 
 ## Privacidad

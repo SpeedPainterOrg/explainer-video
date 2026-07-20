@@ -38,7 +38,7 @@ from the first tournament in 1930 to today.
 ```
 
 You can provide text, a URL, or a document and choose the language, duration,
-aspect ratio, voice, music, and subtitles. Sensible defaults are used when you
+aspect ratio, voice, and subtitles. Sensible defaults are used when you
 do not specify them.
 
 ## Privacy

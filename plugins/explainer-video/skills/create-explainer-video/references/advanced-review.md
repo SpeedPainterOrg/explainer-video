@@ -83,8 +83,6 @@ frame numbers, or overlapping animation actions.
   "aspectRatio": "16:9",
   "style": "explainer-video-v1",
   "targetDurationSeconds": 10,
-  "voice": {"voiceId": null},
-  "music": null,
   "subtitles": "burn",
   "scenes": [
     {
@@ -111,5 +109,7 @@ frame numbers, or overlapping animation actions.
 
 Call `validate_explainer_manifest` and fix all validation errors. Then call
 `render_explainer` and poll `get_explainer_task` according to the main skill.
-A technical retry reuses the same project UUID and manifest. A creative
-revision after a successful render uses a new project UUID.
+If the network outcome is unknown, reuse the same project UUID. After a
+terminal failure, ask the user before retrying; a confirmed retry uses a new
+project UUID and re-uploads the accepted images. A creative revision after a
+successful render also uses a new project UUID.

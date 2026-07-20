@@ -20,6 +20,23 @@ test('public skill copy does not expose generation suppliers or models', async (
 	for (const path of publicSkillFiles) {
 		const content = await readFile(path, 'utf8');
 		assert.doesNotMatch(content, forbiddenSourceNames, path);
+		assert.doesNotMatch(content, /`music`|"music"\s*:/i, path);
+	}
+});
+
+test('package and plugin versions stay aligned', async () => {
+	const packageJson = JSON.parse(await readFile('package.json', 'utf8'));
+	const pluginJson = JSON.parse(
+		await readFile('plugins/explainer-video/.codex-plugin/plugin.json', 'utf8'),
+	);
+	assert.equal(pluginJson.version, packageJson.version);
+});
+
+test('README copy does not advertise unavailable background music', async () => {
+	const unavailableMusicTerms = /\b(?:music|música)\b|音乐|音楽/i;
+	for (const path of readmeFiles) {
+		const content = await readFile(path, 'utf8');
+		assert.doesNotMatch(content, unavailableMusicTerms, path);
 	}
 });
 
