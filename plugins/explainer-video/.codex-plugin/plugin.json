@@ -1,6 +1,6 @@
 {
   "name": "explainer-video",
-  "version": "0.5.2",
+  "version": "0.5.5",
   "description": "Turn text or documents into narrated hand-drawn explainer videos in any compatible agent client.",
   "author": {
     "name": "Explainer Video",
@@ -24,8 +24,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Explainer Video",
-    "shortDescription": "Turn text or documents into narrated videos up to five minutes.",
-    "longDescription": "Turn locally extracted source text into a finished narrated hand-drawn video through one MCP task. The service plans the storyboard, generates illustrations, creates voice and burned subtitles, renders, and publishes; an optional advanced workflow preserves scene-by-scene image review.",
+    "shortDescription": "Turn text or documents into narrated videos with targets up to five minutes.",
+    "longDescription": "Turn locally extracted source text into a finished narrated hand-drawn video through one MCP task. The service plans the storyboard, generates illustrations, creates voice and burned subtitles, fits safely toward the requested duration, renders, and publishes; an optional advanced workflow preserves scene-by-scene image review.",
     "developerName": "Explainer Video",
     "category": "Creative",
     "capabilities": [
