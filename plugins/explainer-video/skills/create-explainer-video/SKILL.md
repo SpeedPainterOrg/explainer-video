@@ -16,19 +16,39 @@ Require only the source material. Unless the user overrides a choice, use:
 
 - the source language;
 - 16:9 and 60 seconds;
-- high-quality hosted narration;
+- warm, steady hosted narration with one consistent voice across scenes;
 - no background music;
 - burned subtitles;
 - the server-generated workflow.
 
-Accept an exact duration from 5 through 300 seconds. For a duration below 30
-seconds, briefly warn that the drawing and narration may feel rushed, then
-continue. Never exceed five minutes. Do not ask for title, scene count, style,
-voice, aspect ratio, subtitles, or technical settings when the defaults fit.
+Accept a target duration from 5 through 300 seconds. The service fits toward
+that target, but may extend the finished video when narration or anchored
+visuals cannot fit safely after silence recovery, scene reallocation, and at
+most 1.08x pitch-preserving tempo. Never clip narration or submit a target over
+300 seconds. For a target below 30 seconds, briefly warn that the drawing and
+narration may feel rushed, then continue. Do not ask for title, scene count,
+style, voice, aspect ratio, subtitles, or technical settings when the defaults
+fit.
 
 Ask a blocking question only when the source is missing, inaccessible,
-contradictory, or materially sensitive. If the user asks only for advice, a
-script, or a storyboard, stop at that requested artifact instead of rendering.
+contradictory, or materially sensitive, or when a relative revision has no
+unambiguous setting. For example, after “再短一点”, ask once for the desired
+seconds rather than guessing. If the user asks only for advice, a script, or a
+storyboard, stop at that requested artifact instead of rendering.
+
+## Creative framing
+
+Before creating the task, identify the source's main message and the clearest
+hook-to-takeaway arc. When the source is clear, give one short, non-blocking
+preview in the user's language, for example: “我会把它做成一个从问题到解决方案的
+暖色手绘故事，重点让结论一眼看懂。” This is a reassuring progress update, not
+an approval gate; proceed immediately unless the user asked to review first.
+
+The default visual promise is a warm, approachable whiteboard story: one
+coherent vignette per scene, restrained color, generous whitespace, and calm,
+readable people or animals when they help explain the idea. Avoid describing
+the result to the user as a collection of assets, intents, manifests, or style
+packs.
 
 ## Choose the workflow
 
@@ -41,7 +61,9 @@ edit images/scenes before rendering, provides an existing storyboard, or needs
 precise scene-level creative control. Before using it, read
 `references/advanced-review.md`. If its upload and manifest tools or local image
 generation are unavailable, explain the limitation and offer server-generated
-mode.
+mode. Verify that the advanced-mode upload, import, validate, and render tools
+are present before generating any images. A skill file on disk does not prove
+that the current conversation loaded its MCP tools.
 
 ## Server-generated workflow
 
@@ -87,13 +109,19 @@ URL.
 ### 3. Poll truthfully
 
 Call `get_explainer_task` with the returned `taskId` until `nextAction` is
-`present_output`, `retry_create`, `retry_render`, or `none`.
+`present_output`, `revise_input`, `retry_create`, `retry_render`, or `none`.
 
 - For `poll_task`, honor `pollAfterSeconds`; never poll faster.
 - Present `statusMessage` in the user's language.
 - Show `stage` and `progress` only when returned. Never estimate a percentage.
 - Send a progress update only when the stage changes or real progress advances
   materially.
+- If a storyboard first becomes available, share its scene titles as one
+  compact, non-blocking update. Do not expose provider names, prompts, traces,
+  or asset internals.
+- For `revise_input`, stop polling. Explain which source or approved content
+  must be shortened, simplified, or changed; ask the user before rebuilding it
+  with a fresh UUID. Never replay rejected content under the old UUID.
 - For `retry_create`, ask the user before retrying. If confirmed, retry once
   with the same source and settings but a fresh task UUID.
 - For `retry_render`, ask the user before retrying the approved work in advanced
@@ -106,24 +134,41 @@ If the user asks to stop, call `cancel_explainer_task` with the owned task id.
 
 ### 4. Present the result
 
-Return the playable MP4 URL first. Then include the requested duration, aspect
-ratio, language, and subtitle URL when one is returned. Offer terse revision
-examples such as `改第 3 幕`, `字幕放大`, `语速慢一点`, or `改成 9:16`.
+Return the playable MP4 URL first. Then give a one-sentence content summary and
+include the scene count, requested target duration, actual duration when
+returned, aspect ratio, language, and subtitle URL. The requested target,
+aspect ratio, and language may be echoed from the trusted parameters submitted
+for this task; actual duration, scene count, and output URLs must come from the
+service response. Omit missing result metadata instead of guessing it.
 
-For a creative revision, preserve unaffected decisions, use a new task UUID,
-and create a new task. Reuse an existing UUID only when the original network
-outcome is unknown; never reuse a terminal generated-task UUID.
+Offer terse revisions the server-generated tool can honor, such as `整体更简洁`,
+`缩到 30 秒`, `改成 9:16`, or `不要烧录字幕`. Do not promise that this mode can
+replace one exact scene, preserve every other generated image, resize subtitle
+text, or tune speech speed. If a server-generated video already exists, explain
+that an exact one-scene replacement with everything else unchanged is not
+supported; offer either a full regeneration or a newly planned advanced-review
+version. Advanced review can preserve unselected approved images within that
+workflow, but it still renders a new complete video.
+
+For a creative revision, carry forward every setting that the API can express,
+use a new task UUID, and create a new task. Reuse an existing UUID only when the
+original network outcome is unknown; never reuse a terminal generated-task UUID.
 
 ## Tool availability
 
 If `create_explainer_video` is missing, tell the user to connect the remote MCP
 server at `https://api.speedpainter.org/mcp` and sign in with Google. Do not ask
-for an API key, renderer key, storage key, narration service key, or any secret in
+for an API key, renderer key, storage key, voice-provider key, or any secret in
 the conversation. Do not invent a curl endpoint as a substitute.
 
 The remote service does not require localhost or port 3000. Browser-based MCP
 clients may need their origin allowlisted by the service operator; native MCP
 clients normally do not send a browser Origin header.
+
+An already-open conversation may keep an older or incomplete tool snapshot. If
+the remote connection works in a new conversation but the current conversation
+is missing core tools, continue in a new conversation with the plugin enabled;
+do not reinstall the plugin, change the MCP URL, or regenerate approved assets.
 
 ## Safety and privacy
 
@@ -140,6 +185,7 @@ clients normally do not send a browser Origin header.
 ## Conversation style
 
 Translate casual requests into the defaults without teaching backend terms.
-Keep updates outcome-oriented: source ready, video queued, planning, generating
-visuals, rendering, adding narration and subtitles, publishing, finished. Accept
-short follow-ups and preserve unaffected work.
+Keep updates outcome-oriented and warm: source understood, story planned,
+illustrations taking shape, narration and subtitles being added, publishing,
+finished. Accept short follow-ups and distinguish global one-call revisions
+from exact scene-level review.
