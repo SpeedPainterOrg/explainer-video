@@ -1,0 +1,26 @@
+{
+  "name": "speedpainter",
+  "owner": {
+    "name": "SpeedPainter",
+    "url": "https://www.speedpainter.org"
+  },
+  "metadata": {
+    "description": "Turn text, notes, or documents into narrated hand-drawn whiteboard explainer videos up to 5 minutes long.",
+    "homepage": "https://www.speedpainter.org"
+  },
+  "plugins": [
+    {
+      "name": "explainer-video",
+      "description": "Turn text or documents into narrated hand-drawn whiteboard explainer videos with burned subtitles via SpeedPainter MCP.",
+      "version": "0.5.0",
+      "author": {
+        "name": "SpeedPainter",
+        "url": "https://www.speedpainter.org"
+      },
+      "homepage": "https://www.speedpainter.org",
+      "repository": "https://github.com/SpeedPainterOrg/explainer-video",
+      "category": "Creative",
+      "source": "./plugins/explainer-video"
+    }
+  ]
+}
