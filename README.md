@@ -48,3 +48,10 @@ do not specify them.
 - You never need to provide an image, voice, storage, or renderer API key.
 
 [Privacy Policy](https://speedpainter.org/en/privacy) · [Terms](https://speedpainter.org/en/terms) · [Support](https://speedpainter.org/en/contact) · [GitHub Issues](https://github.com/SpeedPainterOrg/explainer-video/issues)
+
+## Documentation & Official Channels
+
+- **Web Studio**: [SpeedPainter](https://www.speedpainter.org/en) · [AI Drawing Timelapse Generator](https://www.speedpainter.org/en/ai-drawing-timelapse-generator) · [Whiteboard Video Maker](https://www.speedpainter.org/en/whiteboard-video-maker) · [Doodle Video Maker](https://www.speedpainter.org/en/doodle-video-maker)
+- **Developer Docs & Quickstart**: [Read the Docs](https://speedpainter.readthedocs.io/en/latest/) · [Explainer Video Skill Guide](https://www.speedpainter.org/en/skills/explainer-video) · [Go SDK on pkg.go.dev](https://pkg.go.dev/github.com/SpeedPainterOrg/speedpainter-go) · [Ecosystem Quickstart Gist](https://gist.github.com/SpeedPainterOrg/54ad806f07a575a92c4ce419a743493f)
+- **Browser & Desktop Apps**: [Microsoft Store App](https://apps.microsoft.com/detail/9P7PJWG51H3P) · [Firefox Add-on](https://addons.mozilla.org/en-US/firefox/addon/speedpainter-whiteboard/) · [Microsoft Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/jdlganhconpjiemflceikgmildnfjphp)
+- **Technical Archive**: [Zenodo Record (DOI 10.5281/zenodo.24371413)](https://zenodo.org/records/24371413)
